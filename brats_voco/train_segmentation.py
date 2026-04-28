@@ -5,7 +5,7 @@ import shutil
 from pathlib import Path
 
 import torch
-from torch.cuda.amp import GradScaler, autocast
+from torch.amp import GradScaler, autocast
 from monai.data import decollate_batch
 from monai.inferers import sliding_window_inference
 from monai.losses import DiceCELoss
@@ -40,7 +40,7 @@ def train_one_epoch(model, loader, optimizer, loss_fn, device: torch.device, amp
         image = batch["image"].to(device)
         label = batch["label"].long().to(device)
         optimizer.zero_grad(set_to_none=True)
-        with autocast(enabled=amp_enabled):
+        with autocast(device_type="cuda" if amp_enabled else "cpu", enabled=amp_enabled):
             logits = model(image)
             loss = loss_fn(logits, label)
         if amp_enabled:

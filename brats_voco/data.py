@@ -287,6 +287,7 @@ def build_pretrain_loaders(config: dict[str, Any], split: dict[str, Any]) -> tup
         num_workers=num_workers,
         pin_memory=torch.cuda.is_available(),
         persistent_workers=num_workers > 0,
+        drop_last=True,
     )
     val_loader = DataLoader(
         val_ds,
@@ -295,6 +296,7 @@ def build_pretrain_loaders(config: dict[str, Any], split: dict[str, Any]) -> tup
         num_workers=num_workers,
         pin_memory=torch.cuda.is_available(),
         persistent_workers=num_workers > 0,
+        drop_last=True,
     )
     return train_loader, val_loader
 

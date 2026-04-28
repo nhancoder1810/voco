@@ -6,7 +6,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from torch.cuda.amp import GradScaler, autocast
+from torch.amp import GradScaler, autocast
 
 from .data import build_pretrain_loaders, prepare_data_split
 from .models import VocoStylePretrainer
@@ -77,7 +77,7 @@ def run_epoch(
         if training:
             optimizer.zero_grad(set_to_none=True)
         with torch.set_grad_enabled(training):
-            with autocast(enabled=amp_enabled):
+            with autocast(device_type="cuda" if amp_enabled else "cpu", enabled=amp_enabled):
                 outputs = model(global_view_1, global_view_2, local_view, grid_view=grid_view, drop_view=drop_view)
                 loss = outputs["loss"]
             if training:
