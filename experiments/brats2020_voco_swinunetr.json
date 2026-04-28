@@ -1,0 +1,45 @@
+{
+  "seed": 42,
+  "data_dir": "data",
+  "split_path": "experiments/brats2020_split.json",
+  "output_root": "results",
+  "train_ratio": 0.7,
+  "val_ratio": 0.15,
+  "cache_rate": 1.0,
+  "num_workers": 8,
+  "model": {
+    "feature_size": 48,
+    "use_checkpoint": true,
+    "use_v2": true
+  },
+  "pretrain": {
+    "epochs": 100,
+    "batch_size": 2,
+    "amp": true,
+    "checkpoint_every": 1,
+    "save_epoch_checkpoints": true,
+    "lr": 0.0002,
+    "weight_decay": 0.05,
+    "temperature": 0.1,
+    "local_weight": 0.5,
+    "grid_weight": 0.5,
+    "drop_weight": 0.5,
+    "projection_dim": 256,
+    "grid_size": 4,
+    "patch_modes": ["local", "grid", "drop"],
+    "global_crop_size": [96, 96, 96],
+    "local_crop_size": [64, 64, 64]
+  },
+  "segmentation": {
+    "epochs": 200,
+    "batch_size": 1,
+    "amp": true,
+    "checkpoint_every": 1,
+    "save_epoch_checkpoints": true,
+    "lr": 0.0002,
+    "weight_decay": 0.00001,
+    "roi_size": [96, 96, 96],
+    "sw_batch_size": 2,
+    "overlap": 0.5
+  }
+}
